@@ -32,6 +32,7 @@ def get_registered_tools() -> list[dict]:
 
 # Import tool modules so @register_tool decorators fire
 import backend.agent.tools.calculator  # noqa: F401, E402
+import backend.agent.tools.web_search  # noqa: F401, E402
 
 
 async def execute_tool(tool_name: str, arguments: str) -> str:

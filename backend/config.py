@@ -10,6 +10,8 @@ class Settings(BaseSettings):
     llm_api_key: str = ""
     llm_model: str = "palmyra-x5"
 
+    tavily_api_key: str = ""
+
     model_config = SettingsConfigDict(env_file=".env")
 
     @computed_field

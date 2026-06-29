@@ -6,6 +6,10 @@ from backend.agent.tools import execute_tool, get_registered_tools
 from backend.models.message import Message
 from backend.services.llm import llm_client
 
+# Cap on tool-calling rounds before we force a final text answer. Guards against a
+# model that keeps calling tools indefinitely (e.g. repeated web searches).
+MAX_ITERATIONS = 5
+
 
 async def run_agent(thread_id: str, user_message: str, db: AsyncSession) -> str:
     """Run the agent loop: load history, call LLM, handle tool calls, return response."""
@@ -37,7 +41,7 @@ async def run_agent(thread_id: str, user_message: str, db: AsyncSession) -> str:
     # Agent loop — keep calling LLM until we get a final text response
     tools = get_registered_tools()
 
-    while True:
+    for _ in range(MAX_ITERATIONS):
         response = await llm_client.chat.completions.create(
             model=llm_client._model,
             messages=messages,
@@ -86,3 +90,16 @@ async def run_agent(thread_id: str, user_message: str, db: AsyncSession) -> str:
             db.add(tool_msg)
 
         await db.flush()
+
+    # Hit the iteration cap while still calling tools — force a final text answer
+    # (no further tool calls) so the user always gets a response.
+    response = await llm_client.chat.completions.create(
+        model=llm_client._model,
+        messages=messages,
+        tool_choice="none",
+    )
+    content = response.choices[0].message.content or ""
+    assistant_msg = Message(thread_id=thread_id, role="assistant", content=content)
+    db.add(assistant_msg)
+    await db.commit()
+    return content

@@ -12,6 +12,7 @@ dependencies = [
     "openai>=1.60.0",
     "httpx>=0.28.0",
     "dotenv>=0.9.9",
+    "tavily-python>=0.7.26",
 ]
 
 [project.optional-dependencies]
@@ -23,6 +24,9 @@ dev = [
 
 [tool.pytest.ini_options]
 asyncio_mode = "auto"
+markers = [
+    "eval: live end-to-end evals hitting the real LLM + Tavily (opt-in via RUN_LIVE_EVALS=1)",
+]
 
 [tool.hatch.build.targets.wheel]
 packages = ["backend"]
