@@ -35,7 +35,7 @@ On Windows, run `.\start.ps1` from PowerShell — it validates WSL and launches
 
 # Pull request workflow
 
-When asked to "fork the repo and raise a PR", the PR must target **the fork**
+When asked to "raise a PR", the PR must target **the fork**
 (the user's own copy), not the upstream source it was forked from. Open the PR
 with the fork as the base — e.g. `gh pr create --repo <user>/<repo> --base main
 --head <branch>` — never against the upstream `origin`. Raising it against the
