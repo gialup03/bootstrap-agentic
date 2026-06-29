@@ -131,6 +131,58 @@ body {
   margin-bottom: 4px;
 }
 
+.tool-query {
+  font-style: italic;
+  color: #6a6;
+  margin-bottom: 8px;
+}
+
+.tool-error {
+  color: #d88;
+  margin-bottom: 4px;
+}
+
+.search-result {
+  margin-bottom: 10px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #244024;
+}
+
+.search-result a {
+  color: #9cf;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.search-result a:hover {
+  text-decoration: underline;
+}
+
+.search-result-url {
+  font-size: 11px;
+  color: #6a8a6a;
+  margin: 2px 0 4px;
+  word-break: break-all;
+}
+
+.search-result-snippet {
+  color: #adc7ad;
+  white-space: pre-wrap;
+  line-height: 1.5;
+}
+
+.tool-toggle {
+  background: none;
+  border: none;
+  color: #8c8;
+  font-family: inherit;
+  font-size: 12px;
+  cursor: pointer;
+  padding: 4px 0;
+  text-decoration: underline;
+  margin-right: 12px;
+}
+
 .input-area {
   padding: 16px 24px;
   border-top: 1px solid #222;

@@ -127,6 +127,20 @@ else
     echo "    .env already configured"
 fi
 
+# Optional: Tavily key enables the web_search tool. Skipping leaves search disabled
+# (the tool degrades gracefully) rather than blocking startup.
+if grep -q "^TAVILY_API_KEY=$" .env; then
+    echo ""
+    echo "    Enter your TAVILY_API_KEY to enable web search (or press Enter to skip):"
+    read -r TAVILY_KEY
+    if [ -n "$TAVILY_KEY" ]; then
+        sed -i "s|TAVILY_API_KEY=.*|TAVILY_API_KEY=$TAVILY_KEY|" .env
+        echo "    Tavily key saved to .env"
+    else
+        echo "    Skipped — web search will be disabled until TAVILY_API_KEY is set."
+    fi
+fi
+
 echo ""
 echo "==> Starting Docker services (Postgres + Redis)..."
 docker compose up -d
